@@ -1,0 +1,20 @@
+{
+    "name": "atkrad/data-tables",
+    "description": "DataTables is a php library for the DataTables jQuery plug-in.",
+    "homepage": "https://github.com/atkrad/data-tables",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.4",
+        "twig/twig": "1.16.*"
+    },
+    "suggest": {
+        "phpunit/phpunit": "Allows automated tests to be run without system-wide install.",
+        "fxp/composer-asset-plugin": "NPM/Bower Dependency Manager for Composer"
+    },
+    "autoload": {
+        "psr-4": {
+            "DataTable\\": "src"
+        }
+    }
+}
