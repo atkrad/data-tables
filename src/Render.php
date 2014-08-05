@@ -23,26 +23,41 @@ class Render
 
     const DS = DIRECTORY_SEPARATOR;
 
+    /**
+     * Table render constructor
+     *
+     * @param Table $table Table object
+     */
     public function __construct(Table $table)
     {
         $this->table = $table;
         $this->templatePath = dirname(__FILE__) . self::DS . 'Template';
 
         $loader = new Twig_Loader_Filesystem($this->templatePath);
-        $this->twig = new Twig_Environment($loader, ['debug' => $table->getDebugMode()]);
+        $this->twig = new Twig_Environment($loader, ['debug' => $table->getIsDebug()]);
         $this->twig->addGlobal('table', $this->table);
         $this->twig->addGlobal('render', $this);
 
-        if ($table->getDebugMode()) {
+        if ($table->getIsDebug()) {
             $this->twig->addExtension(new Twig_Extension_Debug());
         }
     }
 
+    /**
+     * Render table
+     *
+     * @return string
+     */
     public function render()
     {
         return $this->twig->render('main.twig', ['config' => $this->getConfig()]);
     }
 
+    /**
+     * Has table HTML tag
+     *
+     * @return bool
+     */
     public function hasTableHtmlTag()
     {
         if (!$this->table->getDataSource() instanceof Dom) {
@@ -52,6 +67,11 @@ class Render
         }
     }
 
+    /**
+     * Get config
+     *
+     * @return string
+     */
     protected function getConfig()
     {
         if (!$this->table->getDataSource() instanceof Dom) {
@@ -65,6 +85,9 @@ class Render
         return json_encode($config);
     }
 
+    /**
+     * Prepare columns config
+     */
     protected function prepareColumnsConfig()
     {
         $columns = [];
@@ -76,6 +99,9 @@ class Render
         $this->table->setColumns($columns);
     }
 
+    /**
+     * Prepare extensions config
+     */
     protected function prepareExtensionsConfig()
     {
         foreach ($this->table->getExtensions() as $extension) {
