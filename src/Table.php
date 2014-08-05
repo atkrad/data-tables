@@ -71,7 +71,7 @@ class Table
      */
     public function __construct()
     {
-        $this->setTableId(md5(time()));
+        $this->setTableId(uniqid('dataTable_'));
     }
 
     /**
@@ -97,12 +97,12 @@ class Table
         return $this->properties[$property];
     }
 
-    public function isDebugMode($debug)
+    public function setIsDebug($debug)
     {
         $this->debug = $debug;
     }
 
-    public function getDebugMode()
+    public function getIsDebug()
     {
         return $this->debug;
     }
