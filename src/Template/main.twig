@@ -1,0 +1,11 @@
+{% if render.haveDataSource() %}
+    <table id="{{ table.getTableId() }}" class="dataTable display">
+
+    </table>
+{% endif %}
+
+<script>
+    $(document).ready(function () {
+        $('{{ '#%s'|format(table.getTableId()) }}').dataTable({{ config|raw }});
+    });
+</script>
