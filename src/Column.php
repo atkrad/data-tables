@@ -3,9 +3,11 @@
 namespace DataTable;
 
 /**
- * Class Column
+ * Table Column Class
  *
  * @method getFormatter() Get column formatter.
+ * @method getProperties() Get column properties.
+ * @method getCallbacks() Get column callbacks.
  *
  * @package DataTable
  */
@@ -376,25 +378,5 @@ class Column
         $this->properties['width'] = $width;
 
         return $this;
-    }
-
-    /**
-     * Get column properties
-     *
-     * @return array
-     */
-    public function getProperties()
-    {
-        return $this->properties;
-    }
-
-    /**
-     * Get column callbacks
-     *
-     * @return array
-     */
-    public function getCallbacks()
-    {
-        return $this->callbacks;
     }
 }
