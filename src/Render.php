@@ -2,7 +2,7 @@
 
 namespace DataTable;
 
-use DataTable\DataSource\DataSourceInterface;
+use DataTable\DataSource\Dom;
 use Twig_Environment;
 use Twig_Extension_Debug;
 use Twig_Loader_Filesystem;
@@ -43,9 +43,9 @@ class Render
         return $this->twig->render('main.twig', ['config' => $this->getConfig()]);
     }
 
-    public function haveDataSource()
+    public function hasTableHtmlTag()
     {
-        if ($this->table->getDataSource() instanceof DataSourceInterface) {
+        if (!$this->table->getDataSource() instanceof Dom) {
             return true;
         } else {
             return false;
@@ -54,8 +54,7 @@ class Render
 
     protected function getConfig()
     {
-        //@todo when add Dom DataSource remove this condition.
-        if ($this->haveDataSource()) {
+        if (!$this->table->getDataSource() instanceof Dom) {
             $this->prepareColumnsConfig();
         }
         $this->prepareExtensionsConfig();

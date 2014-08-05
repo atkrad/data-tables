@@ -4,7 +4,6 @@ namespace DataTable;
 
 use DataTable\DataSource\DataSourceInterface;
 use DataTable\DataSource\ServerSide\ServerSideInterface;
-use DataTable\DataSource\SimpleDataSourceInterface;
 use DataTable\Extension\ExtensionInterface;
 
 /**
@@ -12,7 +11,7 @@ use DataTable\Extension\ExtensionInterface;
  *
  * @method Table setTableId() Set table id.
  * @method getTableId() Get table id.
- * @method DataSourceInterface|ServerSideInterface|SimpleDataSourceInterface getDataSource() Get table data source.
+ * @method DataSourceInterface|ServerSideInterface getDataSource() Get table data source.
  * @method getProperties() Get table properties.
  * @method getCallbacks() Get table callbacks.
  * @method Column[] getColumns() Get table columns.
@@ -429,7 +428,6 @@ class Table
      */
     public function setAjax($ajax)
     {
-        //@todo when ajax is object and have "data" property and data value is function this method not handled.
         if (is_string($ajax)) {
             $pattern = '/^(\s+)*(function)(\s+)*\(/i';
             if (preg_match($pattern, $ajax, $matches) && strtolower($matches[2]) == 'function') {
