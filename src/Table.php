@@ -2,6 +2,7 @@
 
 namespace DataTable;
 
+use DataTable\Column\ColumnInterface;
 use DataTable\DataSource\DataSourceInterface;
 use DataTable\DataSource\ServerSide\ServerSideInterface;
 use DataTable\Extension\ExtensionInterface;
@@ -117,6 +118,10 @@ class Table
     public function addColumn(Column $column)
     {
         $this->columns[] = $column;
+
+        if ($column instanceof ColumnInterface) {
+            $column->initialize($this);
+        }
 
         return $this;
     }
