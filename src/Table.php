@@ -86,6 +86,14 @@ class Table
         $this->dataSource->initialize($this);
     }
 
+    /**
+     * Set table property
+     *
+     * @param string $property Property name
+     * @param mixed  $value    Property value
+     *
+     * @return Table
+     */
     public function setProperty($property, $value)
     {
         $this->properties[$property] = $value;
@@ -93,17 +101,34 @@ class Table
         return $this;
     }
 
+    /**
+     * Get table property value
+     *
+     * @param string $property Property name
+     *
+     * @return mixed
+     */
     public function getProperty($property)
     {
         return $this->properties[$property];
     }
 
-    public function setIsDebug($debug)
+    /**
+     * Set debug mode
+     *
+     * @param bool $debug Debug mode
+     */
+    public function setDebug($debug)
     {
         $this->debug = $debug;
     }
 
-    public function getIsDebug()
+    /**
+     * Is debug mode
+     *
+     * @return bool
+     */
+    public function isDebug()
     {
         return $this->debug;
     }

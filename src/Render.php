@@ -37,11 +37,11 @@ class Render
         $this->templatePath = dirname(__FILE__) . self::DS . 'Template';
 
         $loader = new Twig_Loader_Filesystem($this->templatePath);
-        $this->twig = new Twig_Environment($loader, ['debug' => $table->getIsDebug()]);
+        $this->twig = new Twig_Environment($loader, ['debug' => $table->isDebug()]);
         $this->twig->addGlobal('table', $this->table);
         $this->twig->addGlobal('render', $this);
 
-        if ($table->getIsDebug()) {
+        if ($table->isDebug()) {
             $this->twig->addExtension(new Twig_Extension_Debug());
         }
     }
