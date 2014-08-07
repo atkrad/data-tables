@@ -4,6 +4,7 @@ namespace DataTable\DataSource\ServerSide;
 
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
+use DataTable\Column\ColumnInterface;
 use DataTable\DataSource\DataSourceInterface;
 use DataTable\Request;
 use DataTable\Response;
@@ -91,6 +92,11 @@ class CakePHP implements DataSourceInterface, ServerSideInterface
         foreach ($this->query as $entity) {
             $row = [];
             foreach ($this->table->getColumns() as $column) {
+                if ($column instanceof ColumnInterface) {
+                    $row[$column->getData()] = $column->getContent($entity);
+                    continue;
+                }
+
                 $property = $this->getProperty($column->getData());
                 $columnData = explode('.', $column->getData());
 
@@ -172,7 +178,7 @@ class CakePHP implements DataSourceInterface, ServerSideInterface
             foreach ($request->getColumns() as $column) {
                 if ($column->getSearchable() === true) {
                     $this->query->orWhere(
-                        [$this->table->getColumns()[$column->getData()]->getData() . ' LIKE' => '%' . $value . '%']
+                        [$column->getData() . ' LIKE' => '%' . $value . '%']
                     );
                 }
             }

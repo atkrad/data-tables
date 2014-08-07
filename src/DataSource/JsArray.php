@@ -2,6 +2,7 @@
 
 namespace DataTable\DataSource;
 
+use DataTable\Column\ColumnInterface;
 use DataTable\Table;
 
 /**
@@ -60,6 +61,11 @@ class JsArray implements DataSourceInterface
         foreach ($this->data as $dataValue) {
             $row = [];
             foreach ($this->table->getColumns() as $column) {
+                if ($column instanceof ColumnInterface) {
+                    $row[$column->getData()] = $column->getContent($dataValue);
+                    continue;
+                }
+
                 if (is_callable($column->getFormatter())) {
                     $row[$column->getData()] = call_user_func_array(
                         $column->getFormatter(),
