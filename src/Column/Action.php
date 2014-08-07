@@ -116,4 +116,17 @@ class Action extends Column implements ColumnInterface
             return false;
         }
     }
+
+    /**
+     * Set formatter\
+     *
+     * @param callable $formatter Formatter callable
+     *
+     * @return Action|void
+     * @throws \DataTable\Exception
+     */
+    public function setFormatter($formatter)
+    {
+        throw new Exception('You must use "setManager" method.');
+    }
 }
