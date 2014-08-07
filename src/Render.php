@@ -18,6 +18,9 @@ class Render
      * @var Table
      */
     protected $table;
+    /**
+     * @var Twig_Environment
+     */
     protected $twig;
     protected $templatePath;
 
@@ -65,6 +68,16 @@ class Render
         } else {
             return false;
         }
+    }
+
+    /**
+     * Get twig
+     *
+     * @return Twig_Environment
+     */
+    public function getTwig()
+    {
+        return $this->twig;
     }
 
     /**
