@@ -15,7 +15,7 @@
     "autoload": {
         "psr-4": {
             "DataTable\\": "src",
-            "DataTable\\Test": "tests"
+            "DataTable\\Test\\": "tests"
         }
     }
 }
