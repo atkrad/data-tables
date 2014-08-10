@@ -10,7 +10,7 @@ use DataTable\Extension\ExtensionInterface;
 /**
  * Class Table
  *
- * @method Table setTableId() Set table id.
+ * @method Table setTableId($tableId) Set table id.
  * @method getTableId() Get table id.
  * @method DataSourceInterface|ServerSideInterface getDataSource() Get table data source.
  * @method getProperties() Get table properties.
