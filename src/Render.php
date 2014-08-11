@@ -29,15 +29,21 @@ class Render
     /**
      * Table render constructor
      *
-     * @param Table $table Table object
+     * @param Table            $table Table object
+     * @param Twig_Environment $twig  Twig object
      */
-    public function __construct(Table $table)
+    public function __construct(Table $table, Twig_Environment $twig = null)
     {
         $this->table = $table;
         $this->templatePath = dirname(__FILE__) . self::DS . 'Template';
 
-        $loader = new Twig_Loader_Filesystem($this->templatePath);
-        $this->twig = new Twig_Environment($loader, ['debug' => $table->isDebug()]);
+        if (is_null($twig)) {
+            $loader = new Twig_Loader_Filesystem($this->templatePath);
+            $this->twig = new Twig_Environment($loader, ['debug' => $table->isDebug()]);
+        } else {
+            $this->twig = $twig;
+        }
+
         $this->twig->addGlobal('table', $this->table);
         $this->twig->addGlobal('render', $this);
 
@@ -47,13 +53,39 @@ class Render
     }
 
     /**
-     * Render table
+     * Main render
+     *
+     * @param string $template Main template
      *
      * @return string
      */
-    public function render()
+    public function render($template)
     {
-        return $this->twig->render('main.twig', ['config' => $this->getConfig()]);
+        return $this->twig->render($template, ['config' => $this->getConfig()]);
+    }
+
+    /**
+     * Render table
+     *
+     * @param string $template Table template
+     *
+     * @return string
+     */
+    public function renderTable($template = 'table.twig')
+    {
+        return $this->twig->render($template, ['config' => $this->getConfig()]);
+    }
+
+    /**
+     * Render js
+     *
+     * @param string $template JS template
+     *
+     * @return string
+     */
+    public function renderJs($template = 'js.twig')
+    {
+        return $this->twig->render($template, ['config' => $this->getConfig()]);
     }
 
     /**

@@ -82,7 +82,6 @@ class ActionBuilder
      */
     public function render($template)
     {
-        $render = new Render($this->table);
-        return $render->getTwig()->render($template, ['actions' => $this->getActions()]);
+        return $this->table->getRender()->getTwig()->render($template, ['actions' => $this->getActions()]);
     }
 }

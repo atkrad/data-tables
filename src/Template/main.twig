@@ -1,11 +1,5 @@
-{% if render.hasTableHtmlTag() %}
-    <table id="{{ table.getTableId() }}" class="dataTable display">
-
-    </table>
-{% endif %}
+{% include 'table.twig' %}
 
 <script>
-    $(document).ready(function () {
-        $('{{ '#%s'|format(table.getTableId()) }}').dataTable({{ config|raw }});
-    });
+    {% include 'js.twig' %}
 </script>

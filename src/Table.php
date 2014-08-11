@@ -68,11 +68,17 @@ class Table
     protected $extensions = [];
 
     /**
+     * @var Render
+     */
+    protected $render;
+
+    /**
      * Table constructor
      */
     public function __construct()
     {
         $this->setTableId(uniqid('dataTable_'));
+        $this->render = new Render($this);
     }
 
     /**
@@ -185,13 +191,33 @@ class Table
         return $response;
     }
 
-    public function render()
+    /**
+     * Get render
+     *
+     * @return Render
+     */
+    public function getRender()
     {
-        $render = new Render($this);
-
-        return $render->render();
+        return $this->render;
     }
 
+    /**
+     * Render table
+     *
+     * @param string $template Main template
+     *
+     * @return string
+     */
+    public function render($template = 'main.twig')
+    {
+        return $this->getRender()->render($template);
+    }
+
+    /**
+     * To string magic method
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->render();
