@@ -3,7 +3,6 @@
 namespace DataTable\Column;
 
 use DataTable\Table;
-use DataTable\Render;
 
 /**
  * Action Builder
