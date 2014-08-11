@@ -166,9 +166,25 @@ class Table
      */
     public function addExtension(ExtensionInterface $extension)
     {
-        $this->extensions[] = $extension;
+        $this->extensions[$extension->getPropertyName()] = $extension;
 
         return $this;
+    }
+
+    /**
+     * Get extension
+     *
+     * @param string $propertyName Extension property name
+     *
+     * @return bool|ExtensionInterface
+     */
+    public function getExtension($propertyName)
+    {
+        if (array_key_exists($propertyName, $this->extensions)) {
+            return $this->extensions[$propertyName];
+        } else {
+            return false;
+        }
     }
 
     /**
