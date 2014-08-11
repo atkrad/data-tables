@@ -1,6 +1,6 @@
 <?php
 
-namespace TestCase;
+namespace DataTable\Test\TestCase;
 
 use DataTable\Table;
 use PHPUnit_Framework_TestCase;

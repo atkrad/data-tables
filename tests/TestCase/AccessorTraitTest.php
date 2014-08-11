@@ -1,6 +1,6 @@
 <?php
 
-namespace TestCase;
+namespace DataTable\Test\TestCase;
 
 use BadMethodCallException;
 use DataTable\Table;
