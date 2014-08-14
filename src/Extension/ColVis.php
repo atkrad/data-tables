@@ -2,13 +2,18 @@
 
 namespace DataTable\Extension;
 
+use ArrayAccess;
+use DataTable\ArrayAccessTrait;
+
 /**
  * ColVis Extension
  *
  * @package DataTable\Extension
  */
-class ColVis implements ExtensionInterface
+class ColVis implements ExtensionInterface, ArrayAccess
 {
+    use ArrayAccessTrait;
+
     /**
      * ColVis properties
      *
