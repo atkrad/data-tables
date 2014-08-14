@@ -2,6 +2,7 @@
 
 namespace DataTable\DataSource\ServerSide;
 
+use Cake\Database\Expression\QueryExpression;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use DataTable\Column\ColumnInterface;
@@ -175,13 +176,18 @@ class CakePHP implements DataSourceInterface, ServerSideInterface
         $value = $request->getSearch()->getValue();
 
         if (!empty($value)) {
+            $where = [];
             foreach ($request->getColumns() as $column) {
                 if ($column->getSearchable() === true) {
-                    $this->query->orWhere(
-                        [$column->getData() . ' LIKE' => '%' . $value . '%']
-                    );
+                    $where[$column->getData() . ' LIKE'] = '%' . $value . '%';
                 }
             }
+
+            $this->query->andWhere(
+                function (QueryExpression $exp) use ($where) {
+                    return $exp->or_($where);
+                }
+            );
         }
     }
 
