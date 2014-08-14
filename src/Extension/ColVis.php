@@ -8,6 +8,10 @@ use DataTable\ArrayAccessTrait;
 /**
  * ColVis Extension
  *
+ * ColVis adds a button to the toolbars around DataTables which gives
+ * the end user of the table the ability to dynamically change the
+ * visibility of the columns in the table
+ *
  * @package DataTable\Extension
  */
 class ColVis implements ExtensionInterface, ArrayAccess
