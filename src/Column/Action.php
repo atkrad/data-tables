@@ -126,7 +126,7 @@ class Action extends Column implements ColumnInterface
      * @return Action|void
      * @throws \DataTable\Exception
      */
-    public function setFormatter($formatter)
+    public function setFormatter(Closure $formatter)
     {
         throw new Exception('You must use "setManager" method.');
     }
