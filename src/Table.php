@@ -10,8 +10,6 @@ use DataTable\Extension\ExtensionInterface;
 /**
  * Class Table
  *
- * @method Table setTableId($tableId) Set table id.
- * @method getTableId() Get table id.
  * @method DataSourceInterface|ServerSideInterface getDataSource() Get table data source.
  * @method getProperties() Get table properties.
  * @method getCallbacks() Get table callbacks.
@@ -50,7 +48,7 @@ class Table
      *
      * @var string
      */
-    protected $tableId;
+    protected static $tableId;
 
     /**
      * DataTable data source
@@ -77,14 +75,41 @@ class Table
      */
     public function __construct()
     {
-        $this->setTableId(uniqid('dataTable_'));
         $this->render = new Render($this);
+    }
+
+    /**
+     * Set table id
+     *
+     * @param string $tableId Table id
+     *
+     * @return Table
+     */
+    public function setTableId($tableId)
+    {
+        self::$tableId = $tableId;
+
+        return $this;
+    }
+
+    /**
+     * Get table id
+     *
+     * @return string
+     */
+    public function getTableId()
+    {
+        if (is_null(self::$tableId)) {
+            $this->setTableId(uniqid('dataTable_'));
+        }
+
+        return self::$tableId;
     }
 
     /**
      * Set Table data source
      *
-     * @param DataSourceInterface $dataSource
+     * @param DataSourceInterface $dataSource DataSource object
      */
     public function setDataSource(DataSourceInterface $dataSource)
     {
