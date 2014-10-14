@@ -2,6 +2,8 @@
 
 namespace DataTable;
 
+use Closure;
+
 /**
  * Table Column Class
  *
@@ -30,12 +32,16 @@ class Column
     const TYPE_HTML_NUMERIC_FMT = 'html-numeric-fmt';
     const TYPE_STRING = 'string';
 
-    public function setFormatter($formatter)
+    /**
+     * Set formatter
+     *
+     * @param callable $formatter Column Formatter
+     *
+     * @return Column
+     * @throws Exception
+     */
+    public function setFormatter(Closure $formatter)
     {
-        if (!is_callable($formatter)) {
-            throw new Exception('Formatter must be callable.');
-        }
-
         $this->formatter = $formatter;
 
         return $this;
@@ -134,13 +140,16 @@ class Column
                 $hash = sha1($data);
                 $this->properties['data'] = $hash;
                 $this->callbacks[$hash] = $data;
+
                 return $this;
             }
 
             $this->properties['data'] = $data;
+
             return $this;
         } else {
             $this->properties['data'] = $data;
+
             return $this;
         }
     }
@@ -148,6 +157,7 @@ class Column
     /**
      * Get the data source for the column from the rows data object / array
      *
+     * @return int|string|null|js object|callback
      * @see http://datatables.net/reference/option/columns.data
      */
     public function getData()
