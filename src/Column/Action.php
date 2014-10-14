@@ -2,6 +2,7 @@
 
 namespace DataTable\Column;
 
+use Closure;
 use DataTable\Column;
 use DataTable\Exception;
 use DataTable\Table;
@@ -88,7 +89,7 @@ class Action extends Column implements ColumnInterface
      * @throws \DataTable\Exception
      * @return Action
      */
-    public function setManager($manager)
+    public function setManager(Closure $manager)
     {
         if (!is_callable($manager)) {
             throw new Exception('Manager must be callable.');
