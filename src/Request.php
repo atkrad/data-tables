@@ -2,7 +2,6 @@
 
 namespace DataTable;
 
-use DataTable\Request\Column;
 use DataTable\Request\Order;
 use DataTable\Request\Search;
 use DateTime;
@@ -46,6 +45,9 @@ class Request
      */
     protected $time;
 
+    /**
+     * DataTable request constructor
+     */
     public function __construct()
     {
         parse_str($_SERVER['QUERY_STRING'], $query);
@@ -62,6 +64,8 @@ class Request
     }
 
     /**
+     * Set Columns
+     *
      * @param array $columns
      *
      * @return Request
@@ -69,13 +73,15 @@ class Request
     public function setColumns(array $columns)
     {
         foreach ($columns as $column) {
-            $this->columns[] = new Column($column);
+            $this->columns[] = new Request\Column($column);
         }
 
         return $this;
     }
 
     /**
+     * Set Order
+     *
      * @param array $orders
      *
      * @return Request
@@ -90,6 +96,8 @@ class Request
     }
 
     /**
+     * Set Search
+     *
      * @param array $search
      *
      * @return Request
@@ -102,6 +110,8 @@ class Request
     }
 
     /**
+     * Set Time
+     *
      * @param string $time
      */
     public function setTime($time)
