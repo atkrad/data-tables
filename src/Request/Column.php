@@ -5,7 +5,7 @@ namespace DataTable\Request;
 use DataTable\AccessorTrait;
 
 /**
- * Class Column
+ * Request Column
  *
  * @method Column setData($data) Set column data.
  * @method Column setName($name) Set column name.
@@ -26,7 +26,12 @@ class Column
     protected $orderable;
     protected $search;
 
-    public function __construct($column)
+    /**
+     * Request column constructor
+     *
+     * @param array $column Request column
+     */
+    public function __construct(array $column)
     {
         $this->setData($column['data'])
             ->setName($column['name'])
