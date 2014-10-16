@@ -7,6 +7,7 @@ use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use DataTable\Column\ColumnInterface;
 use DataTable\DataSource\DataSourceInterface;
+use DataTable\Exception;
 use DataTable\Request;
 use DataTable\Response;
 use DataTable\Table;
@@ -100,33 +101,49 @@ class CakePHP implements DataSourceInterface, ServerSideInterface
 
                 $property = $this->getProperty($column->getData());
                 $columnData = explode('.', $column->getData());
+                $tableAlias = $columnData[0];
+                $colName = $columnData[1];
 
                 /**
                  * If property is association
                  */
                 if (is_array($property)) {
                     if (is_callable($column->getFormatter())) {
-                        $row[$columnData[0]][$columnData[1]] = $this->doFormatter(
+                        $row[$tableAlias][$colName] = $this->doFormatter(
                             $column->getFormatter(),
                             [
-                                $entity->get($property['propertyPath'])->get($property['field']),
+                                $entity->get($property['propertyPath']) instanceof Entity ?
+                                    $entity->get($property['propertyPath'])->get($property['field']) :
+                                    $entity->get($property['propertyPath']),
                                 $entity,
                                 $entity->get($property['propertyPath'])
                             ]
                         );
                     } else {
-                        $row[$columnData[0]][$columnData[1]] = (string)$entity->get($property['propertyPath'])->get(
-                            $property['field']
-                        );
+                        if ($entity->get($property['propertyPath']) instanceof Entity) {
+                            $row[$tableAlias][$colName] =
+                                (string)$entity->get($property['propertyPath'])->get($property['field']);
+                            /**
+                             * BelongsToMany Association
+                             */
+                        } elseif (is_array($entity->get($property['propertyPath']))) {
+                            $output = [];
+                            /** @var Entity $belongsToManyEntity */
+                            foreach ($entity->get($property['propertyPath']) as $belongsToManyEntity) {
+                                $output[] = $belongsToManyEntity->get($property['field']);
+                            }
+
+                            $row[$tableAlias][$colName] = implode(', ', $output);
+                        }
                     }
                 } else {
                     if (is_callable($column->getFormatter())) {
-                        $row[$columnData[0]][$columnData[1]] = $this->doFormatter(
+                        $row[$tableAlias][$colName] = $this->doFormatter(
                             $column->getFormatter(),
                             [$entity->get($property), $entity]
                         );
                     } else {
-                        $row[$columnData[0]][$columnData[1]] = (string)$entity->get($property);
+                        $row[$tableAlias][$colName] = (string)$entity->get($property);
                     }
                 }
             }
@@ -210,22 +227,28 @@ class CakePHP implements DataSourceInterface, ServerSideInterface
      *
      * @param string $dataName Column data name
      *
+     * @throws Exception
      * @return array|string
      */
     protected function getProperty($dataName)
     {
-        $dataName = explode('.', $dataName);
+        $dataName = explode('.', trim($dataName));
 
-        if (count($dataName) == 2 && array_key_exists($dataName[0], $this->query->contain())) {
+        if (count($dataName) != 2) {
+            throw new Exception('You are set invalid date.');
+        }
+
+        $tableAlias = $dataName[0];
+        $colName = $dataName[1];
+
+        if ($this->query->repository()->alias() == $tableAlias) {
+            return $colName;
+        } elseif (array_key_exists($tableAlias, $this->query->contain())) {
             return [
                 'propertyPath' => $this->query
-                        ->eagerLoader()->normalized(
-                            $this->query->repository()
-                        )[$dataName[0]]['propertyPath'],
-                'field' => $dataName[1]
+                    ->eagerLoader()->normalized($this->query->repository())[$tableAlias]['propertyPath'],
+                'field' => $colName
             ];
-        } else {
-            return $dataName[1];
         }
     }
 
