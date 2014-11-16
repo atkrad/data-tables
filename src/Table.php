@@ -546,4 +546,22 @@ class Table
 
         return $this;
     }
+
+    /**
+     * Number of rows to display on a single page when using pagination.
+     *
+     * If lengthChangeDT is feature enabled (it is by default) then the end user will be able to
+     * override the value set here to a custom setting using a pop-up menu (see lengthMenuDT).
+     *
+     * @param int $pageLength Change the initial page length (number of rows per page)
+     *
+     * @return Table
+     * @see http://datatables.net/reference/option/pageLength
+     */
+    public function setPageLength($pageLength)
+    {
+        $this->properties['pageLength'] = $pageLength;
+
+        return $this;
+    }
 }
