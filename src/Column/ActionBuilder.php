@@ -73,6 +73,14 @@ class ActionBuilder
     }
 
     /**
+     * Flush all actions
+     */
+    protected function flushActions()
+    {
+        $this->actions = [];
+    }
+
+    /**
      * Actions render
      *
      * @param string $template Action template name
@@ -81,6 +89,9 @@ class ActionBuilder
      */
     public function render($template)
     {
-        return $this->table->getRender()->getTwig()->render($template, ['actions' => $this->getActions()]);
+        $actions = $this->getActions();
+        $this->flushActions();
+
+        return $this->table->getRender()->getTwig()->render($template, ['actions' => $actions]);
     }
 }

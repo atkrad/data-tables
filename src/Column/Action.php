@@ -27,7 +27,7 @@ class Action extends Column implements ColumnInterface
     /**
      * @var ActionBuilder
      */
-    protected static $builder;
+    protected $builder;
 
     /**
      * @var string
@@ -60,8 +60,8 @@ class Action extends Column implements ColumnInterface
     {
         $this->table = $table;
 
-        if (!self::$builder instanceof ActionBuilder) {
-            self::$builder = new ActionBuilder($this->table);
+        if (!$this->builder instanceof ActionBuilder) {
+            $this->builder = new ActionBuilder($this->table);
         }
     }
 
@@ -78,7 +78,7 @@ class Action extends Column implements ColumnInterface
             return '';
         }
 
-        return self::$builder->render($this->template);
+        return $this->builder->render($this->template);
     }
 
     /**
@@ -110,7 +110,7 @@ class Action extends Column implements ColumnInterface
     protected function callManager($rowResult)
     {
         if (is_callable($this->manager)) {
-            call_user_func_array($this->manager, [self::$builder, $rowResult]);
+            call_user_func_array($this->manager, [$this->builder, $rowResult]);
 
             return true;
         } else {
