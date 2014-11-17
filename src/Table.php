@@ -564,4 +564,21 @@ class Table
 
         return $this;
     }
+
+    /**
+     * If ordering is enabled (orderingDT), then DataTables will perform a first pass order during
+     * initialisation. Using this parameter you can define which column(s) the order is performed
+     * upon, and the ordering direction.
+     *
+     * @param array $order Initial order (sort) to apply to the table
+     *
+     * @return Table
+     * @see http://datatables.net/reference/option/order
+     */
+    public function setOrder(array $order)
+    {
+        $this->properties['order'] = $order;
+
+        return $this;
+    }
 }
