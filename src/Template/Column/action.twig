@@ -1,8 +1,12 @@
 {% for action in actions %}
-    {% set attr = '' %}
-    {% for attribute, value in action.options %}
-        {% set attr = ' %s="%s"'|format(attribute, value) ~ attr %}
-    {% endfor %}
+    {% if action.options.link %}
+        {{ action.url|raw }} {% if not loop.last %}|{% endif %}
+    {% else %}
+        {% set attr = '' %}
+        {% for attribute, value in action.options %}
+            {% set attr = ' %s="%s"'|format(attribute, value) ~ attr %}
+        {% endfor %}
 
-    <a href="{{ action.url }}"{{ attr|raw }}>{{ action.name }}</a> {% if not loop.last %}|{% endif %}
+        <a href="{{ action.url }}"{{ attr|raw }}>{{ action.name }}</a> {% if not loop.last %}|{% endif %}
+    {% endif %}
 {% endfor %}
